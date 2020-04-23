@@ -4,7 +4,7 @@ import { default as users } from './users.js';
 
 // Получить массив имен всех пользователей (поле name).
 const getUserNames = users => {
-  // твой код
+  return users.map(user => user.name);
 };
 
 console.log(getUserNames(users));
@@ -14,7 +14,7 @@ console.log(getUserNames(users));
 
 // Получить массив объектов пользователей по цвету глаз (поле eyeColor).
 const getUsersWithEyeColor = (users, color) => {
-  // твой код
+  return users.filter(user => user.eyeColor === color);
 };
 
 console.log(getUsersWithEyeColor(users, 'blue')); // [объект Moore Hensley, объект Sharlene Bush, объект Carey Barr]
@@ -23,7 +23,7 @@ console.log(getUsersWithEyeColor(users, 'blue')); // [объект Moore Hensley
 
 // Получить массив имен пользователей по полу (поле gender).
 const getUsersWithGender = (users, gender) => {
-  // твой код
+  return users.filter(user => user.gender === gender);
 };
 
 console.log(getUsersWithGender(users, 'male')); // [ 'Moore Hensley', 'Ross Vazquez', 'Carey Barr', 'Blackburn Dotson' ]
@@ -32,7 +32,7 @@ console.log(getUsersWithGender(users, 'male')); // [ 'Moore Hensley', 'Ross Vazq
 
 // Получить массив только неактивных пользователей (поле isActive).
 const getInactiveUsers = users => {
-  // твой код
+  return users.filter(user => !user.isActive);
 };
 
 console.log(getInactiveUsers(users)); // [объект Moore Hensley, объект Ross Vazquez, объект Blackburn Dotson]
@@ -41,7 +41,7 @@ console.log(getInactiveUsers(users)); // [объект Moore Hensley, объек
 
 // Получить пользоваля (не массив) по email (поле email, он уникальный).
 const getUserWithEmail = (users, email) => {
-  // твой код
+  return users.find(user => user.email === email);
 };
 
 console.log(getUserWithEmail(users, 'shereeanthony@kog.com')); // {объект пользователя Sheree Anthony}
@@ -51,7 +51,7 @@ console.log(getUserWithEmail(users, 'elmahead@omatom.com')); // {объект п
 
 // Получить массив пользователей попадающих в возрастную категорию от min до max лет (поле age).
 const getUsersWithAge = (users, min, max) => {
-  // твой код
+  return users.filter(user => user.age > min && user.age < max);
 };
 
 console.log(getUsersWithAge(users, 20, 30)); // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
@@ -63,7 +63,7 @@ console.log(getUsersWithAge(users, 30, 40));
 
 // Получить общую сумму баланса (поле balance) всех пользователей.
 const calculateTotalBalance = users => {
-  // твой код
+  return users.reduce((totalBalance, user) => totalBalance + user.balance, 0);
 };
 
 console.log(calculateTotalBalance(users)); // 20916
@@ -72,7 +72,9 @@ console.log(calculateTotalBalance(users)); // 20916
 
 // Массив имен всех пользователей у которых есть друг с указанным именем.
 const getUsersWithFriend = (users, friendName) => {
-  // твой код
+  return users
+    .filter(user => user.friends.includes(friendName))
+    .map(user => user.name);
 };
 
 console.log(getUsersWithFriend(users, 'Briana Decker')); // [ 'Sharlene Bush', 'Sheree Anthony' ]
@@ -80,9 +82,12 @@ console.log(getUsersWithFriend(users, 'Goldie Gentry')); // [ 'Elma Head', 'Sher
 
 // ================Task-09=======================================================================================================================
 
-// Массив имен (поле name) людей, отсортированных в зависимости от количества их друзей (поле friends)
+// Массив имен (поле name) людей, отсортированных в зависимости
+// от количества их друзей(поле friends)
 const getNamesSortedByFriendsCount = users => {
-  // твой код
+  return users
+    .sort((a, b) => a.friends.length - b.friends.length)
+    .map(user => user.name);
 };
 
 console.log(getNamesSortedByFriendsCount(users));
@@ -93,7 +98,20 @@ console.log(getNamesSortedByFriendsCount(users));
 // Получить массив всех умений всех пользователей (поле skills), при
 // этом не должно быть повторяющихся умений и они должны быть отсортированы в алфавитном порядке.
 const getSortedUniqueSkills = users => {
-  // твой код
+  //
+  //return users.reduce(
+  // (totalBalance, user) => totalBalance + user.balance,
+  // 0);
+  //
+  return users
+    .reduce((totalSkills, user) => {
+      user.skills.forEach(oneSkill =>
+        totalSkills.includes(oneSkill) ? '' : totalSkills.push(oneSkill),
+      );
+      return totalSkills;
+    }, [])
+    .sort();
+  //
 };
 
 console.log(getSortedUniqueSkills(users));
